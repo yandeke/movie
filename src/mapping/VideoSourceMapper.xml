@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.movie.dao.VideoSourceMapper" >
+
+	<!-- 查找总记录数 -->
+	<select  id="getTotalPage" resultType="Integer">
+		select count(*)  from  video_source  
+	</select>
+	
+	<!-- 分页查询 -->
+	<select  id="selectByPage" resultType="com.spring.movie.model.VideoSource">
+		SELECT * FROM video_source ORDER BY id LIMIT #{startPos},#{pageSize}
+	</select>
+	
+	<!-- 根据id查询 -->
+	<select id="getById" resultType="com.spring.movie.model.VideoSource">
+		select * from video_source where id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,4 @@
+#Mon Oct 26 21:25:58 CST 2015
+eclipse.preferences.version=1
+validator.Checked=src/spring.xml,src/mapping,src/spring-mvc.xml,src/spring-mybatis.xml
+validator.Unchecked=
