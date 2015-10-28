@@ -1,16 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%-- <%@ taglib prefix=”c” uri=”http://java.sun.com/jstl/core” %>
-<%@ taglib prefix=”fmt” uri=”http://java.sun.com/jsp/jstl/fmt” %>
-<%@ taglib prefix=”sql” uri=”http://java.sun.com/jstl/sql” %>
-<%@ taglib prefix=”x” uri=”http://java.sun.com/jsp/jstl/xml” %>
-<%@ taglib prefix=”m” uri=”http://java.sun.com/jsp/jstl/functions” %>
-  --%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,7 +11,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			body{margin:0;background:url(images/01.jpg) repeat center;font-size:12px;}
 			h1,p{margin:0;}
 			ul{padding:0;margin:0;list-style:none;}
-			
 			/* demo */
 			.demo{width:800px;margin:30px;}
 			#result{font-size:24px;font-family:'微软雅黑','宋体';color:#333;margin:0;font-weight:normal;}
@@ -40,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div id="root" class="redesign">
 			<jsp:include page="header.jsp"></jsp:include>
 	  	<!-- 电影显示 -->
-		<div style="height:1400px;">
+		<div style="height:1400px;" id = "videoShow">
 		      <div style="position:absolute;left:50px;top:90px;height:1400px;">
 			      <c:forEach items="${videoList}" var="video"  varStatus="p"  step="1">
 				      <c:if test="${(p.index+1)%5==1 }">
@@ -81,30 +73,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="demo"  style="position:absolute;top:1800px;left:130px;z-index:9999;">
 			<div id="pager" ></div>
 		</div> 
-		
-		
 	</div>
 </div>
 		<script src="<%=basePath%>js/jquery-1.3.2.min.js" type="text/javascript"></script>
 		<script src="<%=basePath%>js/jquery.pager.js" type="text/javascript"></script>
 		<script type="text/javascript">
 		$(function(){
-		   // alert(${currentpage});
+		    var currentPage = ${currentpage};
+		    var pageSize = ${pageSize};
 			$("#pager").pager({
-				pagenumber:1,
-				pagecout:10,
-				buttonClickCallback:PageClick
+				pagenumber:currentPage,
+				pagecout:pageSize,
+				buttonClickCallback:pageClick
 			});
 		});
 		 
-		PageClick = function(pageclickednumber){
-		    $.get("/videoController/queryAll.action?currentpage="+pageclickednumber,{},function(data){},"json");
-			$("#pager").pager({
-				pagenumber:2,
-				pagecount:10,
-				buttonClickCallback:PageClick
-			})
+		pageClick = function(pageclickednumber){
+			window.location.href =  "/movie/videoController/queryByPage.do?currentPage="+pageclickednumber;
+
+		/**alert(pageclickednumber);
+		$("#").onload();
+		 $.ajax({
+                async: false,
+                type: "get",
+                url: "/movie/videoController/queryByPage.do",
+                data: {
+                	'currentPage':pageclickednumber,
+                },
+                cache: false,
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                },
+                error:function(data){
+                    alert(data.status);
+                }
+            });
+            **/
 		}
 		</script>
-	
 </html>
